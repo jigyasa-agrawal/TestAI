@@ -21,6 +21,17 @@ namespace TestAI.Models
         public int MaxTokens { get; set; } = 2000;
         public double Temperature { get; set; } = 0.3;
         public string? CustomPromptTemplate { get; set; }
+        public bool StructuredResponse { get; set; } = true;
+    }
+
+    public class StructuredLogAnalysisResponse
+    {
+        public string LikelyCause { get; set; } = string.Empty;
+        public string PossibleCodeFix { get; set; } = string.Empty;
+        public string? OptionalCodeSnippet { get; set; }
+        public string? AdditionalNotes { get; set; }
+        public bool Success { get; set; }
+        public string? Error { get; set; }
     }
 
     public class CursorAIResponse

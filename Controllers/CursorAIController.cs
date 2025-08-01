@@ -18,6 +18,98 @@ namespace TestAI.Controllers
         }
 
         /// <summary>
+        /// Analyze logs with structured response format (Likely Cause, Possible Fix, Code Snippet)
+        /// </summary>
+        /// <param name="logs">The log content to analyze</param>
+        /// <returns>Structured AI analysis with clearly separated sections</returns>
+        [HttpPost("analyze-logs-structured")]
+        public async Task<ActionResult<StructuredLogAnalysisResponse>> AnalyzeLogsStructured([FromBody] string logs)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(logs))
+                {
+                    return BadRequest(new StructuredLogAnalysisResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    });
+                }
+
+                _logger.LogInformation("Received structured log analysis request with {Length} characters", logs.Length);
+
+                var response = await _cursorAIService.AnalyzeLogsStructuredAsync(logs);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing structured log analysis request");
+                return StatusCode(500, new StructuredLogAnalysisResponse
+                {
+                    Success = false,
+                    Error = "Internal server error occurred"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Analyze logs with structured response and custom parameters
+        /// </summary>
+        /// <param name="request">The log analysis request with custom parameters</param>
+        /// <returns>Structured AI analysis based on the provided parameters</returns>
+        [HttpPost("analyze-logs-structured-advanced")]
+        public async Task<ActionResult<StructuredLogAnalysisResponse>> AnalyzeLogsStructuredAdvanced([FromBody] LogAnalysisRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.Logs))
+                {
+                    return BadRequest(new StructuredLogAnalysisResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    });
+                }
+
+                _logger.LogInformation("Received advanced structured log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}",
+                    request.Model, request.MaxTokens, request.Temperature);
+
+                var response = await _cursorAIService.AnalyzeLogsStructuredAsync(
+                    request.Logs,
+                    request.Model,
+                    request.MaxTokens,
+                    request.Temperature,
+                    request.CustomPromptTemplate);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing advanced structured log analysis request");
+                return StatusCode(500, new StructuredLogAnalysisResponse
+                {
+                    Success = false,
+                    Error = "Internal server error occurred"
+                });
+            }
+        }
+
+        /// <summary>
         /// Analyze logs with the predefined template for root cause analysis
         /// </summary>
         /// <param name="logs">The log content to analyze</param>
