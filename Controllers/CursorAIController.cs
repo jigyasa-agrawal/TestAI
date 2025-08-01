@@ -23,7 +23,50 @@ namespace TestAI.Controllers
         /// <param name="logs">The log content to analyze</param>
         /// <returns>AI analysis with root cause, code location, and suggested fix</returns>
         [HttpPost("analyze-logs")]
-        public async Task<ActionResult<CursorAIResponse>> AnalyzeLogs([FromBody] string logs)
+        public async Task<ActionResult<LogAnalysisResponse>> AnalyzeLogs([FromBody] string logs)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(logs))
+                {
+                    return BadRequest(new LogAnalysisResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    });
+                }
+
+                _logger.LogInformation("Received log analysis request with {Length} characters", logs.Length);
+
+                var response = await _cursorAIService.AnalyzeLogsStructuredAsync(logs);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing log analysis request");
+                return StatusCode(500, new LogAnalysisResponse
+                {
+                    Success = false,
+                    Error = "Internal server error occurred"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Analyze logs with the original simple text response format
+        /// </summary>
+        /// <param name="logs">The log content to analyze</param>
+        /// <returns>AI analysis as simple text response</returns>
+        [HttpPost("analyze-logs-simple")]
+        public async Task<ActionResult<CursorAIResponse>> AnalyzeLogsSimple([FromBody] string logs)
         {
             try
             {
@@ -36,7 +79,7 @@ namespace TestAI.Controllers
                     });
                 }
 
-                _logger.LogInformation("Received log analysis request with {Length} characters", logs.Length);
+                _logger.LogInformation("Received simple log analysis request with {Length} characters", logs.Length);
 
                 var response = await _cursorAIService.AnalyzeLogsAsync(logs);
 
@@ -51,7 +94,7 @@ namespace TestAI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing log analysis request");
+                _logger.LogError(ex, "Error processing simple log analysis request");
                 return StatusCode(500, new CursorAIResponse
                 {
                     Success = false,
@@ -66,46 +109,91 @@ namespace TestAI.Controllers
         /// <param name="request">The log analysis request with custom parameters</param>
         /// <returns>AI analysis based on the provided parameters</returns>
         [HttpPost("analyze-logs-advanced")]
-        public async Task<ActionResult<CursorAIResponse>> AnalyzeLogsAdvanced([FromBody] LogAnalysisRequest request)
+        public async Task<ActionResult<object>> AnalyzeLogsAdvanced([FromBody] LogAnalysisRequest request)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(request.Logs))
                 {
-                    return BadRequest(new CursorAIResponse
+                    if (request.UseStructuredResponse)
                     {
-                        Success = false,
-                        Error = "Logs cannot be empty"
-                    });
+                        return BadRequest(new LogAnalysisResponse
+                        {
+                            Success = false,
+                            Error = "Logs cannot be empty"
+                        });
+                    }
+                    else
+                    {
+                        return BadRequest(new CursorAIResponse
+                        {
+                            Success = false,
+                            Error = "Logs cannot be empty"
+                        });
+                    }
                 }
 
-                _logger.LogInformation("Received advanced log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}",
-                    request.Model, request.MaxTokens, request.Temperature);
+                _logger.LogInformation("Received advanced log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}, structured: {Structured}",
+                    request.Model, request.MaxTokens, request.Temperature, request.UseStructuredResponse);
 
-                var response = await _cursorAIService.AnalyzeLogsAsync(
-                    request.Logs,
-                    request.Model,
-                    request.MaxTokens,
-                    request.Temperature,
-                    request.CustomPromptTemplate);
-
-                if (response.Success)
+                if (request.UseStructuredResponse && string.IsNullOrWhiteSpace(request.CustomPromptTemplate))
                 {
-                    return Ok(response);
+                    // Use structured analysis
+                    var structuredResponse = await _cursorAIService.AnalyzeLogsStructuredAsync(
+                        request.Logs,
+                        request.Model,
+                        request.MaxTokens,
+                        request.Temperature);
+
+                    if (structuredResponse.Success)
+                    {
+                        return Ok(structuredResponse);
+                    }
+                    else
+                    {
+                        return BadRequest(structuredResponse);
+                    }
                 }
                 else
                 {
-                    return BadRequest(response);
+                    // Use simple analysis (original behavior)
+                    var response = await _cursorAIService.AnalyzeLogsAsync(
+                        request.Logs,
+                        request.Model,
+                        request.MaxTokens,
+                        request.Temperature,
+                        request.CustomPromptTemplate);
+
+                    if (response.Success)
+                    {
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return BadRequest(response);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing advanced log analysis request");
-                return StatusCode(500, new CursorAIResponse
+                
+                if (request.UseStructuredResponse)
                 {
-                    Success = false,
-                    Error = "Internal server error occurred"
-                });
+                    return StatusCode(500, new LogAnalysisResponse
+                    {
+                        Success = false,
+                        Error = "Internal server error occurred"
+                    });
+                }
+                else
+                {
+                    return StatusCode(500, new CursorAIResponse
+                    {
+                        Success = false,
+                        Error = "Internal server error occurred"
+                    });
+                }
             }
         }
 
