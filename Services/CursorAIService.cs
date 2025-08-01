@@ -8,6 +8,7 @@ namespace TestAI.Services
     public interface ICursorAIService
     {
         Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000, double temperature = 0.7);
+        Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null);
     }
 
     public class CursorAIService : ICursorAIService
@@ -16,11 +17,53 @@ namespace TestAI.Services
         private readonly CursorAIConfig _config;
         private readonly ILogger<CursorAIService> _logger;
 
+        private const string DefaultLogAnalysisTemplate = @"Analyze these logs and identify the root cause, the likely code location, and the reason for the issue. Suggest a fix with a code snippet and indicate where to apply it.
+
+Logs:
+{0}";
+
         public CursorAIService(HttpClient httpClient, IOptions<CursorAIConfig> config, ILogger<CursorAIService> logger)
         {
             _httpClient = httpClient;
             _config = config.Value;
             _logger = logger;
+        }
+
+        public async Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(logs))
+                {
+                    return new CursorAIResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    };
+                }
+
+                // Use custom template if provided, otherwise use default
+                var promptTemplate = !string.IsNullOrWhiteSpace(customPromptTemplate) 
+                    ? customPromptTemplate 
+                    : DefaultLogAnalysisTemplate;
+
+                // Format the prompt with the logs
+                var formattedPrompt = string.Format(promptTemplate, logs);
+
+                _logger.LogInformation("Analyzing logs with length: {LogLength} characters", logs.Length);
+
+                // Use the existing GetResponseAsync method with the formatted prompt
+                return await GetResponseAsync(formattedPrompt, model, maxTokens, temperature);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error analyzing logs");
+                return new CursorAIResponse
+                {
+                    Success = false,
+                    Error = $"Exception occurred during log analysis: {ex.Message}"
+                };
+            }
         }
 
         public async Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000, double temperature = 0.7)
