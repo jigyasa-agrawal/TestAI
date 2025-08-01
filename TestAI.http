@@ -1,6 +1,31 @@
-@TestAI_HostAddress = http://localhost:5021
+@TestAI_HostAddress = https://localhost:5001
 
 GET {{TestAI_HostAddress}}/weatherforecast/
-Accept: application/json
+
+###
+
+# Quick Chat - GET request with query parameter
+GET {{TestAI_HostAddress}}/api/cursorai/quick-chat?prompt=Hello, can you explain what is machine learning?
+
+###
+
+# Simple Chat - POST request with prompt in body
+POST {{TestAI_HostAddress}}/api/cursorai/chat
+Content-Type: application/json
+
+"What are the benefits of using ASP.NET Core for web development?"
+
+###
+
+# Advanced Chat - POST request with custom parameters
+POST {{TestAI_HostAddress}}/api/cursorai/chat-advanced
+Content-Type: application/json
+
+{
+  "prompt": "Write a short poem about programming",
+  "model": "gpt-4",
+  "maxTokens": 500,
+  "temperature": 0.8
+}
 
 ###
