@@ -21,6 +21,7 @@ namespace TestAI.Models
         public int MaxTokens { get; set; } = 2000;
         public double Temperature { get; set; } = 0.3;
         public string? CustomPromptTemplate { get; set; }
+        public bool UseStructuredResponse { get; set; } = true; // Default to structured response
     }
 
     public class CursorAIResponse
@@ -28,6 +29,16 @@ namespace TestAI.Models
         public string Response { get; set; } = string.Empty;
         public bool Success { get; set; }
         public string? Error { get; set; }
+    }
+
+    public class LogAnalysisResponse
+    {
+        public string LikelyCause { get; set; } = string.Empty;
+        public string PossibleCodeFix { get; set; } = string.Empty;
+        public string? OptionalCodeSnippet { get; set; }
+        public bool Success { get; set; }
+        public string? Error { get; set; }
+        public string? RawResponse { get; set; } // Keep the raw GPT response as fallback
     }
 
     public class CursorAIApiRequest
