@@ -18,6 +18,98 @@ namespace TestAI.Controllers
         }
 
         /// <summary>
+        /// Analyze logs with the predefined template for root cause analysis
+        /// </summary>
+        /// <param name="logs">The log content to analyze</param>
+        /// <returns>AI analysis with root cause, code location, and suggested fix</returns>
+        [HttpPost("analyze-logs")]
+        public async Task<ActionResult<CursorAIResponse>> AnalyzeLogs([FromBody] string logs)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(logs))
+                {
+                    return BadRequest(new CursorAIResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    });
+                }
+
+                _logger.LogInformation("Received log analysis request with {Length} characters", logs.Length);
+
+                var response = await _cursorAIService.AnalyzeLogsAsync(logs);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing log analysis request");
+                return StatusCode(500, new CursorAIResponse
+                {
+                    Success = false,
+                    Error = "Internal server error occurred"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Analyze logs with custom parameters and optional custom prompt template
+        /// </summary>
+        /// <param name="request">The log analysis request with custom parameters</param>
+        /// <returns>AI analysis based on the provided parameters</returns>
+        [HttpPost("analyze-logs-advanced")]
+        public async Task<ActionResult<CursorAIResponse>> AnalyzeLogsAdvanced([FromBody] LogAnalysisRequest request)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(request.Logs))
+                {
+                    return BadRequest(new CursorAIResponse
+                    {
+                        Success = false,
+                        Error = "Logs cannot be empty"
+                    });
+                }
+
+                _logger.LogInformation("Received advanced log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}",
+                    request.Model, request.MaxTokens, request.Temperature);
+
+                var response = await _cursorAIService.AnalyzeLogsAsync(
+                    request.Logs,
+                    request.Model,
+                    request.MaxTokens,
+                    request.Temperature,
+                    request.CustomPromptTemplate);
+
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing advanced log analysis request");
+                return StatusCode(500, new CursorAIResponse
+                {
+                    Success = false,
+                    Error = "Internal server error occurred"
+                });
+            }
+        }
+
+        /// <summary>
         /// Send a prompt to Cursor AI and get a response
         /// </summary>
         /// <param name="prompt">The prompt to send to Cursor AI</param>

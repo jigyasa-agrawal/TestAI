@@ -1,4 +1,4 @@
-@TestAI_HostAddress = https://localhost:5001
+@TestAI_HostAddress = http://localhost:5021
 
 GET {{TestAI_HostAddress}}/weatherforecast/
 
@@ -26,6 +26,47 @@ Content-Type: application/json
   "model": "gpt-4",
   "maxTokens": 500,
   "temperature": 0.8
+}
+
+###
+
+# Log Analysis - Simple (uses predefined template)
+POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs
+Content-Type: application/json
+
+"2024-01-15 10:30:45 ERROR [DatabaseService] Connection timeout after 30 seconds
+2024-01-15 10:30:45 ERROR [DatabaseService] Failed to execute query: SELECT * FROM users WHERE id = 12345
+2024-01-15 10:30:45 WARN  [ConnectionPool] Pool exhausted, unable to get connection
+2024-01-15 10:30:46 ERROR [UserController] NullReferenceException at UserController.GetUser() line 45
+2024-01-15 10:30:46 ERROR [UserController] System.NullReferenceException: Object reference not set to an instance of an object
+   at UserService.GetUserById(Int32 id) in UserService.cs:line 78
+   at UserController.GetUser(Int32 id) in UserController.cs:line 45"
+
+###
+
+# Log Analysis - Advanced with custom parameters
+POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-advanced
+Content-Type: application/json
+
+{
+  "logs": "2024-01-15 14:22:33 INFO  [OrderService] Processing order #ORD-2024-001234\n2024-01-15 14:22:34 ERROR [PaymentGateway] Payment failed: Insufficient funds\n2024-01-15 14:22:34 ERROR [OrderService] Order processing failed for order #ORD-2024-001234\n2024-01-15 14:22:35 WARN  [NotificationService] Failed to send email notification to customer@example.com",
+  "model": "gpt-4",
+  "maxTokens": 1500,
+  "temperature": 0.2
+}
+
+###
+
+# Log Analysis - Advanced with custom prompt template
+POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-advanced
+Content-Type: application/json
+
+{
+  "logs": "Application startup failed\nSystem.InvalidOperationException: Unable to configure services\n   at Startup.ConfigureServices() line 25",
+  "model": "gpt-4",
+  "maxTokens": 1000,
+  "temperature": 0.1,
+  "customPromptTemplate": "As a senior developer, please analyze these application logs and provide:\n1. Root cause analysis\n2. Step-by-step debugging approach\n3. Immediate fix recommendations\n4. Prevention strategies\n\nApplication Logs:\n{0}"
 }
 
 ###
