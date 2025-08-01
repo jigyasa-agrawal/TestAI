@@ -8,9 +8,9 @@ namespace TestAI.Services
 {
     public interface ICursorAIService
     {
-        Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000, double temperature = 0.7);
-        Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null);
-        Task<StructuredLogAnalysisResponse> AnalyzeLogsStructuredAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null);
+        Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000);
+        Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, string? customPromptTemplate = null);
+        Task<StructuredLogAnalysisResponse> AnalyzeLogsStructuredAsync(string logs, string model = "gpt-4", int maxTokens = 2000, string? customPromptTemplate = null);
     }
 
     public class CursorAIService : ICursorAIService
@@ -50,7 +50,7 @@ Logs to analyze:
             _logger = logger;
         }
 
-        public async Task<StructuredLogAnalysisResponse> AnalyzeLogsStructuredAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null)
+        public async Task<StructuredLogAnalysisResponse> AnalyzeLogsStructuredAsync(string logs, string model = "gpt-4", int maxTokens = 2000, string? customPromptTemplate = null)
         {
             try
             {
@@ -74,7 +74,7 @@ Logs to analyze:
                 _logger.LogInformation("Analyzing logs with structured response, length: {LogLength} characters", logs.Length);
 
                 // Get response from Cursor AI
-                var response = await GetResponseAsync(formattedPrompt, model, maxTokens, temperature);
+                var response = await GetResponseAsync(formattedPrompt, model, maxTokens);
 
                 if (!response.Success)
                 {
@@ -153,7 +153,7 @@ Logs to analyze:
             return result;
         }
 
-        public async Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, double temperature = 0.3, string? customPromptTemplate = null)
+        public async Task<CursorAIResponse> AnalyzeLogsAsync(string logs, string model = "gpt-4", int maxTokens = 2000, string? customPromptTemplate = null)
         {
             try
             {
@@ -177,7 +177,7 @@ Logs to analyze:
                 _logger.LogInformation("Analyzing logs with length: {LogLength} characters", logs.Length);
 
                 // Use the existing GetResponseAsync method with the formatted prompt
-                return await GetResponseAsync(formattedPrompt, model, maxTokens, temperature);
+                return await GetResponseAsync(formattedPrompt, model, maxTokens);
             }
             catch (Exception ex)
             {
@@ -190,7 +190,7 @@ Logs to analyze:
             }
         }
 
-        public async Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000, double temperature = 0.7)
+        public async Task<CursorAIResponse> GetResponseAsync(string prompt, string model = "gpt-4", int maxTokens = 1000)
         {
             try
             {
@@ -210,8 +210,7 @@ Logs to analyze:
                     {
                         new Message { Role = "user", Content = prompt }
                     },
-                    MaxTokens = maxTokens,
-                    Temperature = temperature
+                    MaxTokens = maxTokens
                 };
 
                 var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings

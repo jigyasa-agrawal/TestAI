@@ -11,7 +11,6 @@ namespace TestAI.Models
         public string Prompt { get; set; } = string.Empty;
         public string Model { get; set; } = "gpt-4";
         public int MaxTokens { get; set; } = 1000;
-        public double Temperature { get; set; } = 0.7;
     }
 
     public class LogAnalysisRequest
@@ -19,7 +18,6 @@ namespace TestAI.Models
         public string Logs { get; set; } = string.Empty;
         public string Model { get; set; } = "gpt-4";
         public int MaxTokens { get; set; } = 2000;
-        public double Temperature { get; set; } = 0.3;
         public string? CustomPromptTemplate { get; set; }
         public bool StructuredResponse { get; set; } = true;
     }
@@ -46,7 +44,6 @@ namespace TestAI.Models
         public string Model { get; set; } = string.Empty;
         public List<Message> Messages { get; set; } = new();
         public int MaxTokens { get; set; }
-        public double Temperature { get; set; }
     }
 
     public class Message

@@ -79,14 +79,13 @@ namespace TestAI.Controllers
                     });
                 }
 
-                _logger.LogInformation("Received advanced structured log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}",
-                    request.Model, request.MaxTokens, request.Temperature);
+                _logger.LogInformation("Received advanced structured log analysis request with model: {Model}, maxTokens: {MaxTokens}",
+                    request.Model, request.MaxTokens);
 
                 var response = await _cursorAIService.AnalyzeLogsStructuredAsync(
                     request.Logs,
                     request.Model,
                     request.MaxTokens,
-                    request.Temperature,
                     request.CustomPromptTemplate);
 
                 if (response.Success)
@@ -171,14 +170,13 @@ namespace TestAI.Controllers
                     });
                 }
 
-                _logger.LogInformation("Received advanced log analysis request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}",
-                    request.Model, request.MaxTokens, request.Temperature);
+                _logger.LogInformation("Received advanced log analysis request with model: {Model}, maxTokens: {MaxTokens}",
+                    request.Model, request.MaxTokens);
 
                 var response = await _cursorAIService.AnalyzeLogsAsync(
                     request.Logs,
                     request.Model,
                     request.MaxTokens,
-                    request.Temperature,
                     request.CustomPromptTemplate);
 
                 if (response.Success)
@@ -263,14 +261,13 @@ namespace TestAI.Controllers
                     });
                 }
 
-                _logger.LogInformation("Received advanced chat request with model: {Model}, maxTokens: {MaxTokens}, temperature: {Temperature}", 
-                    request.Model, request.MaxTokens, request.Temperature);
+                _logger.LogInformation("Received advanced chat request with model: {Model}, maxTokens: {MaxTokens}", 
+                    request.Model, request.MaxTokens);
 
                 var response = await _cursorAIService.GetResponseAsync(
                     request.Prompt, 
                     request.Model, 
-                    request.MaxTokens, 
-                    request.Temperature);
+                    request.MaxTokens);
                 
                 if (response.Success)
                 {
