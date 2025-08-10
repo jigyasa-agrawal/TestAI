@@ -43,16 +43,15 @@ namespace TestAI.Models
 
     public class CursorAIApiRequest
     {
-        public string Model { get; set; } = string.Empty;
-        public List<Message> Messages { get; set; } = new();
-        public int MaxTokens { get; set; }
-        public double Temperature { get; set; }
+        public string model { get; set; } = string.Empty;
+        public List<Message> messages { get; set; } = new();
+        public int max_tokens { get; set; }
     }
 
     public class Message
     {
-        public string Role { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
+        public string role { get; set; } = string.Empty;
+        public string content { get; set; } = string.Empty;
     }
 
     public class CursorAIApiResponse
