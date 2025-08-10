@@ -12,7 +12,7 @@ Update your `appsettings.json` or `appsettings.Development.json` file with your 
 {
   "CursorAI": {
     "ApiKey": "your-actual-api-key-here",
-    "BaseUrl": "https://api.cursor.sh/v1"
+    "BaseUrl": "https://api.openai.com/v1"
   }
 }
 ```
@@ -25,7 +25,7 @@ For production environments, it's recommended to use environment variables:
 
 ```bash
 export CursorAI__ApiKey="your-actual-api-key"
-export CursorAI__BaseUrl="https://api.cursor.sh/v1"
+export CursorAI__BaseUrl="https://api.openai.com/v1"
 ```
 
 Or in `appsettings.Production.json`:

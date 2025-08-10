@@ -63,12 +63,13 @@ Logs to analyze:
                 }
 
                 // Use custom template if provided, otherwise use default
-                var promptTemplate = !string.IsNullOrWhiteSpace(customPromptTemplate) 
-                    ? customPromptTemplate 
+                var promptTemplate = !string.IsNullOrWhiteSpace(customPromptTemplate)
+                    ? customPromptTemplate
                     : DefaultLogAnalysisTemplate;
 
                 // Format the prompt with the logs
-                var formattedPrompt = string.Format(promptTemplate, logs);
+                //var formattedPrompt = string.Format(promptTemplate, logs);
+                var formattedPrompt = "What is ML";
 
                 _logger.LogInformation("Analyzing logs with length: {LogLength} characters", logs.Length);
 
@@ -101,13 +102,12 @@ Logs to analyze:
 
                 var request = new CursorAIApiRequest
                 {
-                    Model = model,
-                    Messages = new List<Message>
+                    model = "gpt-3.5-turbo",
+                    messages = new List<Message>
                     {
-                        new Message { Role = "user", Content = prompt }
+                        new Message { role = "user", content = prompt }
                     },
-                    MaxTokens = maxTokens,
-                    Temperature = temperature
+                    max_tokens = 100,
                 };
 
                 var json = JsonConvert.SerializeObject(request, new JsonSerializerSettings
@@ -116,7 +116,7 @@ Logs to analyze:
                 });
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                
+
                 _httpClient.DefaultRequestHeaders.Clear();
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_config.ApiKey}");
 
@@ -129,13 +129,13 @@ Logs to analyze:
                 if (response.IsSuccessStatusCode)
                 {
                     var apiResponse = JsonConvert.DeserializeObject<CursorAIApiResponse>(responseContent);
-                    
+
                     if (apiResponse?.Choices?.Count > 0)
                     {
                         return new CursorAIResponse
                         {
                             Success = true,
-                            Response = apiResponse.Choices[0].Message.Content
+                            Response = apiResponse.Choices[0].Message.content
                         };
                     }
                     else
@@ -149,9 +149,9 @@ Logs to analyze:
                 }
                 else
                 {
-                    _logger.LogError("API call failed with status: {StatusCode}, Response: {Response}", 
+                    _logger.LogError("API call failed with status: {StatusCode}, Response: {Response}",
                         response.StatusCode, responseContent);
-                    
+
                     return new CursorAIResponse
                     {
                         Success = false,
@@ -226,7 +226,7 @@ Logs to analyze:
             try
             {
                 // Split the response into sections
-                var sections = response.Split(new string[] { "LIKELY CAUSE:", "POSSIBLE CODE FIX:", "OPTIONAL CODE SNIPPET:" }, 
+                var sections = response.Split(new string[] { "LIKELY CAUSE:", "POSSIBLE CODE FIX:", "OPTIONAL CODE SNIPPET:" },
                     StringSplitOptions.RemoveEmptyEntries);
 
                 if (sections.Length >= 3)
@@ -276,10 +276,10 @@ Logs to analyze:
                 }
 
                 var section = response.Substring(startIndex, endIndex - startIndex).Trim();
-                
+
                 // Clean up the section - remove extra newlines and format nicely
                 section = System.Text.RegularExpressions.Regex.Replace(section, @"\n\s*\n", "\n");
-                
+
                 return section;
             }
             catch
