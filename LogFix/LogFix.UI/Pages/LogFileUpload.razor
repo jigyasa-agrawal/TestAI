@@ -194,7 +194,10 @@
             Level = el.TryGetProperty("level", out var lvl) ? lvl.GetString() : "info",
             Message = el.TryGetProperty("message", out var msg) ? msg.GetString() : "",
             Timestamp = el.TryGetProperty("timestamp", out var ts) ? ts.GetString() : null,
-            StackTrace = el.TryGetProperty("stackTrace", out var meta) ? meta.ToString() : null
+            StackTrace = el.TryGetProperty("stackTrace", out var st) ? st.GetString() : null,
+            Title = el.TryGetProperty("eventId", out var eid) ? eid.ToString() : null,
+            CustomError = el.TryGetProperty("customError", out var custom) && custom.ValueKind == System.Text.Json.JsonValueKind.True,
+            Action = el.TryGetProperty("action", out var act) ? act.GetString() : null
         };
     }
 
@@ -234,5 +237,7 @@
         public string? Timestamp { get; set; }
         public string? StackTrace { get; set; }
         public string? Title { get; set; }
+        public bool CustomError { get; set; }
+        public string? Action { get; set; }
     }
 }

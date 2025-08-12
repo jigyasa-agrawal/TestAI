@@ -145,7 +145,7 @@
                         <td>@group.Key</td>
                         <td>@group.Count()</td>
                         <td>
-                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="async () => await ShowGroupDetailsAsync(group)">
+                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ShowGroupDetailsAsync(group)">
                                 <span class="bi bi-gear"></span> Process
                             </button>
                         </td>
@@ -165,23 +165,34 @@
             </div>
             <div class="modal-body">
                 <ul class="list-group">
-                    @foreach (var entry in SelectedGroup)
-                    {
-                        <li class="list-group-item">
-                            <div><strong>Level:</strong> @entry.Level</div>
-                            <div><strong>Timestamp:</strong> @entry.Timestamp</div>
-                            <div><strong>EventId:</strong> @entry.Title</div>
-                            <div><strong>StackTrace:</strong> @entry.StackTrace</div>
-                        </li>
+                    @{
+                        var entry = SelectedGroup.FirstOrDefault();
+                        if (entry != null)
+                        {
+                            if (entry.CustomError)
+                            {
+                                <div class="mt-3">
+                                    <strong>@entry.Action</strong>
+                                </div>
+                            }
+                            else
+                            {
+                                <li class="list-group-item">
+                                    <div><strong>Level:</strong> @entry.Level</div>
+                                    <div><strong>Timestamp:</strong> @entry.Timestamp</div>
+                                    <div><strong>EventId:</strong> @entry.Title</div>
+                                    <div><strong>Custom Error:</strong> @entry.CustomError</div>
+                                    <div><strong>StackTrace:</strong> @entry.StackTrace</div>
+                                </li>
+                            }
+                        }                       
+                        if (ApiResponse != null)
+                        {
+                            <div class="mt-3 aleert alert-info">@ApiResponse</div>
+                        }
                     }
+
                 </ul>
-                @if (!string.IsNullOrEmpty(ApiResponse))
-                {
-                    <div class="mt-3 alert alert-info">
-                        <strong>AI Analysis:</strong>
-                        <pre>@ApiResponse</pre>
-                    </div>
-                }
             </div>
         </div>
     }
@@ -199,19 +210,21 @@
     private bool ShowModal = false;
     private string ApiResponse = "";
 
-    private async Task ShowGroupDetailsAsync(IGrouping<string, LogFileUpload.LogEntry> group)
+    private void ShowGroupDetailsAsync(IGrouping<string, LogFileUpload.LogEntry> group)
     {
+
         SelectedGroup = group;
         ShowModal = true;
         ApiResponse = "";
 
-        var entry = group.FirstOrDefault();
-        if (entry != null)
-        {
-            var content = new StringContent(entry?.StackTrace ?? "", System.Text.Encoding.UTF8, "application/json");
-            var response = await Http.PostAsync("https://localhost:7150/api/CursorAI/analyze-logs", content);
-            ApiResponse = await response.Content.ReadAsStringAsync();
-        }
+        ApiResponse = "This message sent to the AI for processing...";
+        StateHasChanged();
+    }
+
+    private void FixThieIssue(LogFileUpload.LogEntry entry)
+    {
+
+        ApiResponse = "Action is getting Processed...";
         StateHasChanged();
     }
 
