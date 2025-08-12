@@ -40,6 +40,7 @@
         <label class="fw-bold">Filter:</label>
         <select @bind="SelectedFilter" class="filter-select">
             <option value="all">All</option>
+            <option value="information">Information</option>
             <option value="error">Error</option>
             <option value="warning">Warning</option>
             <option value="info">Info</option>
@@ -49,8 +50,7 @@
         <table class="table table-striped table-hover log-table">
             <thead>
                 <tr>
-                    <th>Error Title</th>
-                    <th>Description</th>
+                    <th>Message</th>
                     <th>Count</th>
                     <th>Action</th>
                 </tr>
@@ -60,7 +60,6 @@
                 {
                     <tr>
                         <td>@group.Key</td>
-                        <td>@group.First().Message</td>
                         <td>@group.Count()</td>
                         <td>
                             <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ProcessLogGroup(group.Key)">
@@ -79,13 +78,13 @@
     private string SelectedFilter = "all";
     private IEnumerable<IGrouping<string, LogFileUpload.LogEntry>> GroupedEntries =>
         LogEntries
-            .Where(e => SelectedFilter == "all" || (e.Level?.ToLower() ?? "info") == SelectedFilter)
-            .GroupBy(e => e.Title ?? "Unknown");
+            .Where(e => SelectedFilter == "all" || (e.Level?.ToLower() ?? "information") == SelectedFilter)
+            .GroupBy(e => e.Message ?? "Unknown");
 
-    private async void ProcessLogGroup(string title)
+    private async void ProcessLogGroup(string message)
     {
-        var id = Guid.NewGuid(); // Simulate unique id for the group
-        var url = $"/process/{id}?title={Uri.EscapeDataString(title)}";
+        var id = Guid.NewGuid();
+        var url = $"/process/{id}?message={Uri.EscapeDataString(message)}";
         await JS.InvokeVoidAsync("window.open", url, "_blank");
     }
 }
