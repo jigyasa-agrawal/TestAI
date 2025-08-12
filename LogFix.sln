@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogFix.API", "LogFix.API.csproj", "{6EE1C4DD-50CD-46C7-BC4E-96C567D705E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogFix.UI", "..\LogFix.UI\LogFix.UI.csproj", "{ACD24639-8A27-43CA-BEC7-F0D114BF04EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogFix.UI", "..\..\AVEVA\Code\Projects\LogFix\LogFix.UI\LogFix.UI.csproj", "{0CE742EC-2F6A-177D-4A50-DEA9E4B32EF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{6EE1C4DD-50CD-46C7-BC4E-96C567D705E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EE1C4DD-50CD-46C7-BC4E-96C567D705E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EE1C4DD-50CD-46C7-BC4E-96C567D705E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACD24639-8A27-43CA-BEC7-F0D114BF04EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACD24639-8A27-43CA-BEC7-F0D114BF04EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACD24639-8A27-43CA-BEC7-F0D114BF04EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACD24639-8A27-43CA-BEC7-F0D114BF04EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CE742EC-2F6A-177D-4A50-DEA9E4B32EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CE742EC-2F6A-177D-4A50-DEA9E4B32EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CE742EC-2F6A-177D-4A50-DEA9E4B32EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CE742EC-2F6A-177D-4A50-DEA9E4B32EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
