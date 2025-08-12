@@ -194,7 +194,7 @@
             Level = el.TryGetProperty("level", out var lvl) ? lvl.GetString() : "info",
             Message = el.TryGetProperty("message", out var msg) ? msg.GetString() : "",
             Timestamp = el.TryGetProperty("timestamp", out var ts) ? ts.GetString() : null,
-            Metadata = el.TryGetProperty("metadata", out var meta) ? meta.ToString() : null
+            StackTrace = el.TryGetProperty("stackTrace", out var meta) ? meta.ToString() : null
         };
     }
 
@@ -232,7 +232,7 @@
         public string? Level { get; set; }
         public string? Message { get; set; }
         public string? Timestamp { get; set; }
-        public string? Metadata { get; set; }
+        public string? StackTrace { get; set; }
         public string? Title { get; set; }
     }
 }

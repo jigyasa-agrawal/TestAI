@@ -64,9 +64,9 @@ public class ExceptionLogger
             timestamp = DateTime.UtcNow.ToString("o"),
             level = "Information",
             source = "Microsoft.AspNetCore.Hosting.Diagnostics",
-            message = message,
-            eventId = eventId,
-            StackTrace = ex.StackTrace
+            message,
+            eventId,
+            stackTrace = ex.StackTrace
         };
 
         List<object> logEntries;

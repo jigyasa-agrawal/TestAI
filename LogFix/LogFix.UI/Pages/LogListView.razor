@@ -7,12 +7,15 @@
         position: sticky;
         top: 0;
         background: #f8f9fa;
+        color: #212529;
         z-index: 2;
     }
+
     .log-table tbody tr:hover {
         background: #e9ecef;
         transition: background 0.2s;
     }
+
     .badge {
         font-size: 1rem;
         padding: 0.5em 1em;
@@ -21,10 +24,14 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5em;
+        background: #f8f9fa;
+        color: #007bff;
     }
-    .badge .bi {
-        font-size: 1.2em;
-    }
+
+        .badge .bi {
+            font-size: 1.2em;
+        }
+
     .filter-select {
         min-width: 120px;
         border-radius: 8px;
@@ -32,6 +39,81 @@
         background: #f8f9fa;
         font-weight: 500;
         color: #007bff;
+    }
+    /* Modal styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 1050;
+    }
+
+    .modal-dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 1060;
+        min-width: 350px;
+        width: 60vw;
+        max-width: 60vw;
+        max-height: 60vh;
+        overflow-y: auto;
+        color: #212529;
+    }
+
+    .modal-header {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f9fa;
+        color: #212529;
+    }
+
+    .modal-body {
+        padding: 1rem;
+        background: #fff;
+        color: #212529;
+    }
+
+    .btn-outline-primary {
+        color: #007bff;
+        border-color: #007bff;
+        background: #fff;
+    }
+
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+    .btn-close {
+        color: #212529;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .card {
+        background: #fff;
+        color: #212529;
+        border: 1px solid #eee;
+    }
+
+    .list-group-item {
+        background: #f8f9fa;
+        color: #212529;
+        border-color: #eee;
     }
 </style>
 
@@ -62,7 +144,7 @@
                         <td>@group.Key</td>
                         <td>@group.Count()</td>
                         <td>
-                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ProcessLogGroup(group.Key)">
+                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ShowGroupDetails(group)">
                                 <span class="bi bi-gear"></span> Process
                             </button>
                         </td>
@@ -71,6 +153,30 @@
             </tbody>
         </table>
     </div>
+
+    @if (ShowModal && SelectedGroup != null)
+    {
+        <div class="modal-backdrop" @onclick="CloseModal"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <strong>Details for Message:</strong> @SelectedGroup.Key
+                <button class="btn btn-sm btn-close" @onclick="CloseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    @foreach (var entry in SelectedGroup)
+                    {
+                        <li class="list-group-item">
+                            <div><strong>Level:</strong> @entry.Level</div>
+                            <div><strong>Timestamp:</strong> @entry.Timestamp</div>
+                            <div><strong>EventId:</strong> @entry.Title</div>
+                            <div><strong>StackTrace:</strong> @entry.StackTrace</div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
 </div>
 
 @code {
@@ -81,10 +187,18 @@
             .Where(e => SelectedFilter == "all" || (e.Level?.ToLower() ?? "information") == SelectedFilter)
             .GroupBy(e => e.Message ?? "Unknown");
 
-    private async void ProcessLogGroup(string message)
+    private IGrouping<string, LogFileUpload.LogEntry>? SelectedGroup;
+    private bool ShowModal = false;
+
+    private void ShowGroupDetails(IGrouping<string, LogFileUpload.LogEntry> group)
     {
-        var id = Guid.NewGuid();
-        var url = $"/process/{id}?message={Uri.EscapeDataString(message)}";
-        await JS.InvokeVoidAsync("window.open", url, "_blank");
+        SelectedGroup = group;
+        ShowModal = true;
+    }
+
+    private void CloseModal()
+    {
+        ShowModal = false;
+        SelectedGroup = null;
     }
 }
