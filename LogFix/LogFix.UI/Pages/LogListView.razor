@@ -1,5 +1,6 @@
 @using Microsoft.JSInterop
 @inject IJSRuntime JS
+@inject HttpClient Http
 @using LogFix.UI.Pages
 
 <style>
@@ -144,7 +145,7 @@
                         <td>@group.Key</td>
                         <td>@group.Count()</td>
                         <td>
-                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ShowGroupDetails(group)">
+                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="async () => await ShowGroupDetailsAsync(group)">
                                 <span class="bi bi-gear"></span> Process
                             </button>
                         </td>
@@ -174,6 +175,13 @@
                         </li>
                     }
                 </ul>
+                @if (!string.IsNullOrEmpty(ApiResponse))
+                {
+                    <div class="mt-3 alert alert-info">
+                        <strong>AI Analysis:</strong>
+                        <pre>@ApiResponse</pre>
+                    </div>
+                }
             </div>
         </div>
     }
@@ -189,16 +197,28 @@
 
     private IGrouping<string, LogFileUpload.LogEntry>? SelectedGroup;
     private bool ShowModal = false;
+    private string ApiResponse = "";
 
-    private void ShowGroupDetails(IGrouping<string, LogFileUpload.LogEntry> group)
+    private async Task ShowGroupDetailsAsync(IGrouping<string, LogFileUpload.LogEntry> group)
     {
         SelectedGroup = group;
         ShowModal = true;
+        ApiResponse = "";
+
+        var entry = group.FirstOrDefault();
+        if (entry != null)
+        {
+            var content = new StringContent(entry?.StackTrace ?? "", System.Text.Encoding.UTF8, "application/json");
+            var response = await Http.PostAsync("https://localhost:7150/api/CursorAI/analyze-logs", content);
+            ApiResponse = await response.Content.ReadAsStringAsync();
+        }
+        StateHasChanged();
     }
 
     private void CloseModal()
     {
         ShowModal = false;
         SelectedGroup = null;
+        ApiResponse = "";
     }
 }
