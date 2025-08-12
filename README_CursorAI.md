@@ -111,7 +111,7 @@ All endpoints return a consistent response format:
 
 ## Testing
 
-Use the provided `TestAI.http` file to test the endpoints. Make sure to:
+Use the provided `LogFix.http` file to test the endpoints. Make sure to:
 
 1. Update the API key in your configuration
 2. Start the application

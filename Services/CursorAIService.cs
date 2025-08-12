@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Text;
-using TestAI.Models;
+using LogFix.Models;
 
-namespace TestAI.Services
+namespace LogFix.Services
 {
     public interface ICursorAIService
     {

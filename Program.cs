@@ -1,5 +1,5 @@
-using TestAI.Models;
-using TestAI.Services;
+using LogFix.Models;
+using LogFix.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

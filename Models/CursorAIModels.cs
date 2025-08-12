@@ -1,4 +1,4 @@
-namespace TestAI.Models
+namespace LogFix.Models
 {
     public class CursorAIConfig
     {

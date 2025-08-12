@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TestAI.Models;
-using TestAI.Services;
+using LogFix.Models;
+using LogFix.Services;
 
-namespace TestAI.Controllers
+namespace LogFix.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

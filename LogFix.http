@@ -1,14 +1,14 @@
-@TestAI_HostAddress = http://localhost:5021
+@LogFix_HostAddress = http://localhost:5021
 
 ###
 
 # Quick Chat - GET request with query parameter
-GET {{TestAI_HostAddress}}/api/cursorai/quick-chat?prompt=Hello, can you explain what is machine learning?
+GET {{LogFix_HostAddress}}/api/cursorai/quick-chat?prompt=Hello, can you explain what is machine learning?
 
 ###
 
 # Simple Chat - POST request with prompt in body
-POST {{TestAI_HostAddress}}/api/cursorai/chat
+POST {{LogFix_HostAddress}}/api/cursorai/chat
 Content-Type: application/json
 
 "What are the benefits of using ASP.NET Core for web development?"
@@ -16,7 +16,7 @@ Content-Type: application/json
 ###
 
 # Advanced Chat - POST request with custom parameters
-POST {{TestAI_HostAddress}}/api/cursorai/chat-advanced
+POST {{LogFix_HostAddress}}/api/cursorai/chat-advanced
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
 ###
 
 # Log Analysis - Simple (uses predefined template) - NOW RETURNS STRUCTURED RESPONSE
-POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs
+POST {{LogFix_HostAddress}}/api/cursorai/analyze-logs
 Content-Type: application/json
 
 "2024-01-15 10:30:45 ERROR [DatabaseService] Connection timeout after 30 seconds
@@ -43,7 +43,7 @@ Content-Type: application/json
 ###
 
 # Log Analysis - Simple Text Response (original format)
-POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-simple
+POST {{LogFix_HostAddress}}/api/cursorai/analyze-logs-simple
 Content-Type: application/json
 
 "2024-01-15 10:30:45 ERROR [DatabaseService] Connection timeout after 30 seconds
@@ -54,7 +54,7 @@ Content-Type: application/json
 ###
 
 # Log Analysis - Advanced with Structured Response (default)
-POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-advanced
+POST {{LogFix_HostAddress}}/api/cursorai/analyze-logs-advanced
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
 ###
 
 # Log Analysis - Advanced with Simple Text Response
-POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-advanced
+POST {{LogFix_HostAddress}}/api/cursorai/analyze-logs-advanced
 Content-Type: application/json
 
 {
@@ -82,7 +82,7 @@ Content-Type: application/json
 ###
 
 # Log Analysis - Advanced with custom prompt template (forces simple response)
-POST {{TestAI_HostAddress}}/api/cursorai/analyze-logs-advanced
+POST {{LogFix_HostAddress}}/api/cursorai/analyze-logs-advanced
 Content-Type: application/json
 
 {
