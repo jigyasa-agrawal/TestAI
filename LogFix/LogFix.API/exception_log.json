@@ -1,162 +1,743 @@
 [
+
   {
+
     "timestamp": "2025-08-12T20:00:16.4852965Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 1: ArgumentNullException occurred.",
+
     "eventId": 1,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 24"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.5488684Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+    [
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.4852965Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 1: ArgumentNullException occurred.",
+
+        "eventId": 1,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 24",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.5488684Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 2: ArgumentException occurred.",
+
+        "eventId": 2,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 25",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.5822361Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 3: InvalidOperationException occurred.",
+
+        "eventId": 3,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 26",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.6123273Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 4: NotImplementedException occurred.",
+
+        "eventId": 4,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 27",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.6426703Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 5: FormatException occurred.",
+
+        "eventId": 5,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 28",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.6750297Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 6: IndexOutOfRangeException occurred.",
+
+        "eventId": 6,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 29",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.7139900Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 7: DivideByZeroException occurred.",
+
+        "eventId": 7,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 30",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.7525854Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 8: TimeoutException occurred.",
+
+        "eventId": 8,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 31",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.7828696Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 9: FileNotFoundException occurred.",
+
+        "eventId": 9,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 32",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:00:16.8110698Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 10: UnauthorizedAccessException occurred.",
+
+        "eventId": 10,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 33",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.0814675Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 1: ArgumentNullException occurred.",
+
+        "eventId": 1,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 24",
+
+        "CustomError": false
+
+      },
+
+
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.1451885Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 2: ArgumentException occurred.",
+
+        "eventId": 2,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 25",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.1686339Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 3: InvalidOperationException occurred.",
+
+        "eventId": 3,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 26",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.2015439Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 4: NotImplementedException occurred.",
+
+        "eventId": 4,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 27",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.2401036Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 5: FormatException occurred.",
+
+        "eventId": 5,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 28",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.2781358Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 6: IndexOutOfRangeException occurred.",
+
+        "eventId": 6,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 29",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.3246757Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 7: DivideByZeroException occurred.",
+
+        "eventId": 7,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 30",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.3588661Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 8: TimeoutException occurred.",
+
+        "eventId": 8,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 31",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.3884996Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 9: FileNotFoundException occurred.",
+
+        "eventId": 9,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 32",
+
+        "CustomError": false
+
+      },
+
+      {
+
+        "timestamp": "2025-08-12T20:05:37.4238647Z",
+
+        "level": "Information",
+
+        "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
+        "message": "Exception 10: UnauthorizedAccessException occurred.",
+
+        "eventId": 10,
+
+        "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 33",
+
+        "CustomError": false
+
+      }
+
+    ],
+
     "message": "Exception 2: ArgumentException occurred.",
+
     "eventId": 2,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 25"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.5822361Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 3: InvalidOperationException occurred.",
+
     "eventId": 3,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 26"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.6123273Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 4: NotImplementedException occurred.",
+
     "eventId": 4,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 27"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.6426703Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 5: FormatException occurred.",
+
     "eventId": 5,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 28"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.6750297Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 6: IndexOutOfRangeException occurred.",
+
     "eventId": 6,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 29"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.7139900Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 7: DivideByZeroException occurred.",
+
     "eventId": 7,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 30"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.7525854Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 8: TimeoutException occurred.",
+
     "eventId": 8,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 31"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.7828696Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 9: FileNotFoundException occurred.",
+
     "eventId": 9,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 32"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:00:16.8110698Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 10: UnauthorizedAccessException occurred.",
+
     "eventId": 10,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 33"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.0814675Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 1: ArgumentNullException occurred.",
+
     "eventId": 1,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 24"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.1451885Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 2: ArgumentException occurred.",
+
     "eventId": 2,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 25"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.1686339Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 3: InvalidOperationException occurred.",
+
     "eventId": 3,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 26"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.2015439Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 4: NotImplementedException occurred.",
+
     "eventId": 4,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 27"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.2401036Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 5: FormatException occurred.",
+
     "eventId": 5,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 28"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.2781358Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 6: IndexOutOfRangeException occurred.",
+
     "eventId": 6,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 29"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.3246757Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 7: DivideByZeroException occurred.",
+
     "eventId": 7,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 30"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.3588661Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 8: TimeoutException occurred.",
+
     "eventId": 8,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 31"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.3884996Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 9: FileNotFoundException occurred.",
+
     "eventId": 9,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 32"
+
   },
+
   {
+
     "timestamp": "2025-08-12T20:05:37.4238647Z",
+
     "level": "Information",
+
     "source": "Microsoft.AspNetCore.Hosting.Diagnostics",
+
     "message": "Exception 10: UnauthorizedAccessException occurred.",
+
     "eventId": 10,
+
     "stackTrace": "   at LogFix.API.Controllers.ErrorGenerateController.Get() in C:\\Users\\gowthamreddy.guntaka\\Documents\\AVEVA\\TestAI\\LogFix\\LogFix.API\\Controllers\\ErrorGenerateController.cs:line 33"
+
+  },
+
+  {
+
+    "timestamp": "2025-08-12T20:00:16.4852965Z",
+
+    "level": "Information",
+
+    "source": "",
+
+    "message": "Application storage is full, clean up the storage.",
+
+    "eventId": 1,
+
+    "stackTrace": "",
+
+    "Action": "/api/storage/cleanup"
+
+  },
+
+  {
+
+    "timestamp": "2025-08-12T20:00:16.5488684Z",
+
+    "level": "Information",
+
+    "source": "",
+
+    "message": "Application storage is full, clean up the storage.",
+
+    "eventId": 2,
+
+    "stackTrace": "",
+
+    "Action": "/api/storage/cleanup"
+
+  },
+
+  {
+
+    "timestamp": "2025-08-12T20:00:16.5822361Z",
+
+    "level": "Information",
+
+    "source": "",
+
+    "message": "Application storage is full, clean up the storage.",
+
+    "eventId": 3,
+
+    "stackTrace": "",
+
+    "Action": "/api/storage/cleanup"
+
   }
+
 ]
