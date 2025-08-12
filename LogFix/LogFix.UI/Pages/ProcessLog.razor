@@ -1,0 +1,40 @@
+@page "/process/{id}"
+@inject IAiCrashContextService CrashCtx;
+
+<PageTitle>Process Log</PageTitle>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Log Processing Result</h3>
+                </div>
+                <div class="card-body">
+                    @markdown;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Id { get; set; }
+
+    string stackText; // bind this to a <textarea> that you paste the error into
+    string markdown;
+
+    async Task Build()
+    {
+        var md = await Task.Run(() => CrashCtx.BuildMarkdown(
+            stackText,
+            new CrashContextOptions
+            {
+                RepoRoot = Directory.GetCurrentDirectory(),
+                ContextLines = 30,
+                MaxFrames = 6,
+                OutputMarkdownPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ai_context.md")
+            }));
+        markdown = md;
+    }
+}

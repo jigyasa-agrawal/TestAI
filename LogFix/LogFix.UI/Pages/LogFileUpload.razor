@@ -1,0 +1,238 @@
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JS
+
+<style>
+    .upload-area {
+        border: 2px dashed #007bff;
+        border-radius: 18px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #f8f9fa 60%, #e3e6f3 100%);
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        transition: border-color 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+        .upload-area.dragover {
+            border-color: #6610f2;
+            background: linear-gradient(135deg, #e2e6ea 60%, #d1c4e9 100%);
+            box-shadow: 0 8px 32px rgba(102,16,242,0.12);
+        }
+
+    .custom-file-label {
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-weight: 600;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 1.15rem;
+        letter-spacing: 0.5px;
+        transition: color 0.2s;
+    }
+
+        .custom-file-label:hover {
+            color: #6610f2;
+            text-decoration: underline;
+        }
+
+    .progress-bar {
+        height: 10px;
+        background: linear-gradient(90deg, #007bff 40%, #6f42c1 100%);
+        border-radius: 5px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        margin-top: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .progress-bar-animated {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(255,255,255,0.2);
+        animation: progressmove 1.2s infinite linear;
+    }
+
+    .bi-upload {
+        font-size: 3rem !important;
+        color: #6610f2 !important;
+        background: linear-gradient(135deg, #e3e6f3 60%, #f8f9fa 100%);
+        border-radius: 50%;
+        padding: 0.5rem;
+        box-shadow: 0 2px 8px rgba(102,16,242,0.08);
+    }
+
+    .alert-danger {
+        border-radius: 8px;
+        font-size: 1.05rem;
+        box-shadow: 0 2px 8px rgba(220,53,69,0.08);
+    }
+
+    .text-primary {
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+</style>
+
+
+<div class="upload-area @(IsDragOver ? "dragover" : null)" @onmouseover="() => IsDragOver = true" @onmouseout="() => IsDragOver = false">
+    <span class="bi bi-upload"></span>
+    <div class="custom-file-label" @onclick="TriggerFileInput">
+        <span>Click to select or drag a <b>.json</b>/<b>.txt</b>/<b>.log</b> log file here to upload</span>
+    </div>
+    <InputFile style="display:none" OnChange="OnInputFileChange" accept=".json,.txt,.log" />
+</div>
+
+<div class="mt-2">
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="alert alert-danger">@ErrorMessage</div>
+    }
+    @if (IsLoading)
+    {
+        <div class="progress-bar">
+            <div class="progress-bar-animated"></div>
+        </div>
+        <div class="text-primary mt-2"><span class="spinner-border spinner-border-sm"></span> Processing file...</div>
+    }
+</div>
+@if (LogEntries?.Count > 0)
+{
+    <LogListView LogEntries="LogEntries" />
+}
+
+@code {
+    private bool IsLoading = false;
+    private string? ErrorMessage;
+    private List<LogEntry> LogEntries = new();
+    private bool IsDragOver = false;
+
+    private async void TriggerFileInput()
+    {
+        await JS.InvokeVoidAsync("eval", "document.querySelector('[type=file]').click()");
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount > 0)
+        {
+            await ProcessFile(e.File);
+        }
+    }
+    private async Task ProcessFile(IBrowserFile file)
+    {
+        ErrorMessage = null;
+        LogEntries.Clear();
+        var ext = Path.GetExtension(file.Name).ToLowerInvariant();
+        if (ext != ".json" && ext != ".txt" && ext != ".log")
+        {
+            ErrorMessage = "Only .json, .txt, and .log files are allowed.";
+            StateHasChanged();
+            return;
+        }
+        IsLoading = true;
+        StateHasChanged();
+        try
+        {
+            using var stream = file.OpenReadStream(10 * 1024 * 1024); // 10MB limit
+            using var reader = new StreamReader(stream);
+            var content = await reader.ReadToEndAsync();
+            if (ext == ".json")
+            {
+                LogEntries = ParseJsonLogs(content);
+            }
+            else // .txt or .log
+            {
+                LogEntries = ParseTextLogs(content);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Error processing file: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private List<LogEntry> ParseJsonLogs(string content)
+    {
+        var entries = new List<LogEntry>();
+        try
+        {
+            var json = System.Text.Json.JsonDocument.Parse(content);
+            if (json.RootElement.ValueKind == System.Text.Json.JsonValueKind.Array)
+            {
+                foreach (var el in json.RootElement.EnumerateArray())
+                {
+                    entries.Add(ParseJsonLogEntry(el));
+                }
+            }
+            else if (json.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object)
+            {
+                entries.Add(ParseJsonLogEntry(json.RootElement));
+            }
+        }
+        catch
+        {
+            ErrorMessage = "Invalid JSON format.";
+        }
+        return entries;
+    }
+
+    private LogEntry ParseJsonLogEntry(System.Text.Json.JsonElement el)
+    {
+        return new LogEntry
+        {
+            Level = el.TryGetProperty("level", out var lvl) ? lvl.GetString() : "info",
+            Message = el.TryGetProperty("message", out var msg) ? msg.GetString() : "",
+            Timestamp = el.TryGetProperty("timestamp", out var ts) ? ts.GetString() : null,
+            Metadata = el.TryGetProperty("metadata", out var meta) ? meta.ToString() : null
+        };
+    }
+
+    private List<LogEntry> ParseTextLogs(string content)
+    {
+        var entries = new List<LogEntry>();
+        var lines = content.Split('\n');
+        foreach (var line in lines)
+        {
+            // Example: [2024-06-01 12:00:00] [error] Something bad happened
+            var match = System.Text.RegularExpressions.Regex.Match(line, @"\[(.*?)\]\s*\[(.*?)\]\s*(.*)");
+            if (match.Success)
+            {
+                entries.Add(new LogEntry
+                {
+                    Timestamp = match.Groups[1].Value,
+                    Level = match.Groups[2].Value,
+                    Message = match.Groups[3].Value
+                });
+            }
+            else if (!string.IsNullOrWhiteSpace(line))
+            {
+                entries.Add(new LogEntry
+                {
+                    Level = "info",
+                    Message = line
+                });
+            }
+        }
+        return entries;
+    }
+
+    public class LogEntry
+    {
+        public string? Level { get; set; }
+        public string? Message { get; set; }
+        public string? Timestamp { get; set; }
+        public string? Metadata { get; set; }
+        public string? Title { get; set; }
+    }
+}
