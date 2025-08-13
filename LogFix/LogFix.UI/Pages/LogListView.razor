@@ -2,6 +2,9 @@
 @inject IJSRuntime JS
 @inject HttpClient Http
 @using LogFix.UI.Pages
+@using System.Text.Json
+@using System.Text
+@using System.Net.Http.Headers
 
 <style>
     .log-table th {
@@ -49,7 +52,7 @@
         right: 0;
         bottom: 0;
         background: rgba(0,0,0,0.4);
-        z-index: 1050;
+        z-index: 9998;
     }
 
     .modal-dialog {
@@ -60,7 +63,7 @@
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-        z-index: 1060;
+        z-index: 9999;
         min-width: 350px;
         width: 60vw;
         max-width: 60vw;
@@ -145,7 +148,7 @@
                         <td>@group.Key</td>
                         <td>@group.Count()</td>
                         <td>
-                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="() => ShowGroupDetailsAsync(group)">
+                            <button class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1" @onclick="async () => await ShowGroupDetailsAsync(group)">
                                 <span class="bi bi-gear"></span> Process
                             </button>
                         </td>
@@ -155,15 +158,14 @@
         </table>
     </div>
 
-    @if (ShowModal && SelectedGroup != null)
+    @if (SelectedGroup != null)
     {
-        <div class="modal-backdrop" @onclick="CloseModal"></div>
-        <div class="modal-dialog">
-            <div class="modal-header">
+        <div class="card mt-4" style="position:relative;bottom:0;width:100%;">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <strong>Details for Message:</strong> @SelectedGroup.Key
-                <button class="btn btn-sm btn-close" @onclick="CloseModal">&times;</button>
+                <button class="btn btn-sm btn-close" type="button" @onclick="ClosePanel">&times;</button>
             </div>
-            <div class="modal-body">
+            <div class="card-body">
                 <ul class="list-group">
                     @{
                         var entry = SelectedGroup.FirstOrDefault();
@@ -172,7 +174,7 @@
                             if (entry.CustomError)
                             {
                                 <div class="mt-3">
-                                    <strong>@entry.Action</strong>
+                                    <strong>@entry.Action</strong> is Processing...
                                 </div>
                             }
                             else
@@ -185,13 +187,13 @@
                                     <div><strong>StackTrace:</strong> @entry.StackTrace</div>
                                 </li>
                             }
-                        }                       
-                        if (ApiResponse != null)
+                            <button class="btn btn-outline-primary mt-2" type="button" @onclick="async () => await FixThieIssue(entry)">Fix</button>
+                        }
+                        if (!string.IsNullOrEmpty(ApiResponse))
                         {
-                            <div class="mt-3 aleert alert-info">@ApiResponse</div>
+                            <div class="mt-3 alert alert-info">@ApiResponse</div>
                         }
                     }
-
                 </ul>
             </div>
         </div>
@@ -207,30 +209,35 @@
             .GroupBy(e => e.Message ?? "Unknown");
 
     private IGrouping<string, LogFileUpload.LogEntry>? SelectedGroup;
-    private bool ShowModal = false;
     private string ApiResponse = "";
 
-    private void ShowGroupDetailsAsync(IGrouping<string, LogFileUpload.LogEntry> group)
+    private async Task ShowGroupDetailsAsync(IGrouping<string, LogFileUpload.LogEntry> group)
     {
-
         SelectedGroup = group;
-        ShowModal = true;
         ApiResponse = "";
-
-        ApiResponse = "This message sent to the AI for processing...";
+        var entry = group.FirstOrDefault();
         StateHasChanged();
     }
 
-    private void FixThieIssue(LogFileUpload.LogEntry entry)
+    private async Task FixThieIssue(LogFileUpload.LogEntry entry)
     {
-
-        ApiResponse = "Action is getting Processed...";
+        try
+        {
+            // Remove hardcoded API key for security
+            // string access = ""; // <-- Do not store secrets in code
+            // Instead, use a secure method to provide the API key, e.g. from configuration or user input
+            // If you need to call the API, inject the key securely or use a backend proxy
+            ApiResponse = "API key removed for security. Please provide your key securely.";
+        }
+        catch (Exception ex)
+        {
+            ApiResponse = $"Error: {ex.Message}";
+        }
         StateHasChanged();
     }
 
-    private void CloseModal()
+    private void ClosePanel()
     {
-        ShowModal = false;
         SelectedGroup = null;
         ApiResponse = "";
     }
